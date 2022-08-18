@@ -5,7 +5,7 @@ $(document).ready(function () {
   }        
   $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/hearts/1", function( data ) {
     var response = new Date(data.createdAt);
-    if(response>new Date()){
+    if(response<new Date()){
     	$('div>*').click(function() {
         var id = $(this).attr('class');
         
