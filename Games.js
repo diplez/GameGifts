@@ -3,25 +3,29 @@ $(document).ready(function () {
   	newDiv(i);
     $("div."+i).css("color", getRandomColor());
   }        
+
+  var stopClick = true;
+
   $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/hearts/1", function( data ) {
-    var response = new Date(data.createdAt);
-    if(response<new Date()){
+    var response = new Date(data.createdAt);    
     	$('div>*').click(function() {
-        var id = $(this).attr('class');
-        
-        $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/gift/"+id, function(gifts) {
-        alert('Te has ganado '+ gifts.name);
-        })
-        var data = { 
-          "createdAt": addHours(24), 
-          "name": id, 
-          "avatar":'identificador seleccionado '+id
-        };
-        API_Resource('https://62fe4c23a85c52ee483484f9.mockapi.io/love/hearts/1','PUT',data,null,null,null,null);
-      });  
-    }else{
-    	alert('Tienes que esperar 24 horas para volver a presionar')
-    }     
+        if(response<new Date()){      
+          var id = $(this).attr('class');
+          
+          $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/gift/"+id, function(gifts) {
+          alert('Te has ganado '+ gifts.name);
+          })
+          response = addHours(24);
+          var data = { 
+            "createdAt": addHours(24), 
+            "name": id, 
+            "avatar":'identificador seleccionado '+id
+          };
+          API_Resource('https://62fe4c23a85c52ee483484f9.mockapi.io/love/hearts/1','PUT',data,null,null,null,null);
+        }else{
+          alert('Tienes que esperar 24 horas para volver a presionar')
+        }     
+      });      
   })        
 });
 
