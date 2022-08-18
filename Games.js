@@ -30,7 +30,7 @@ $(document).ready(function () {
 });
 
 function newDiv(i) {
-    var $div = $("<div class='"+i+"'>&hearts;</div>");
+    var $div = $("<div class='"+i+"'><i class='las la-heart'></i></div>");
     $(".animatedDivs").append($div);    
     animateDiv();
 
