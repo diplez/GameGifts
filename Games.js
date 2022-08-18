@@ -2,19 +2,18 @@ $(document).ready(function () {
 	for(var i=1;i<11;i++)	{
   	newDiv(i);
     $("div."+i).css("color", getRandomColor());
-  }        
-
-  var stopClick = true;
+  }
 
   $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/hearts/1", function( data ) {
     var response = new Date(data.createdAt);    
-    	$('div>*').click(function() {
+    	$('div > i').click(function() {        
         if(response<new Date()){      
           var id = $(this).attr('class');
           
           $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/gift/"+id, function(gifts) {
-          alert('Te has ganado '+ gifts.name);
+            alert('Te has ganado '+ gifts.name);
           })
+
           response = addHours(24);
           var data = { 
             "createdAt": addHours(24), 
@@ -22,8 +21,8 @@ $(document).ready(function () {
             "avatar":'identificador seleccionado '+id
           };
           API_Resource('https://62fe4c23a85c52ee483484f9.mockapi.io/love/hearts/1','PUT',data,null,null,null,null);
-        }else{
-          alert('Tienes que esperar 24 horas para volver a presionar')
+        }else{          
+          alert(`Se puede ejecutar luego de ${response.toLocaleString()}`)
         }     
       });      
   })        
@@ -40,7 +39,7 @@ function newDiv(i) {
         var speed = calcSpeed([oldq.top, oldq.left], newq);
 
         $div.animate({
-            top: newq[0],
+            top: newq[0]+100,
             left: newq[1]
         }, speed, function () {
             animateDiv();
@@ -52,7 +51,7 @@ function newDiv(i) {
 function makeNewPosition() {
 
     // Get viewport dimensions (remove the dimension of the div)
-    var h = $(window).height() - 50;
+    var h = $(window).height() - 150;
     var w = $(window).width() - 50;
 
     var nh = Math.floor(Math.random() * h);
