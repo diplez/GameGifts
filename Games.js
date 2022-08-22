@@ -8,7 +8,7 @@ $(document).ready(function () {
     var response = new Date(data.createdAt);    
     	$('div > i').click(function() {        
         if(response<new Date()){      
-          var id = $(this).attr('class');
+          var id = $(this).attr('id');
           
           $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/gift/"+id, function(gifts) {
             alert('Te has ganado '+ gifts.name);
@@ -29,7 +29,7 @@ $(document).ready(function () {
 });
 
 function newDiv(i) {
-    var $div = $("<div class='"+i+"'><i class='las la-heart'></i></div>");
+    var $div = $("<div class='"+i+"'><i class='las la-heart' id='"+i+"'></i></div>");
     $(".animatedDivs").append($div);    
     animateDiv();
 
