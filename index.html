@@ -13,6 +13,7 @@
         var boton_jugar;
         var valores;
         let petalosTotal = 6;
+        
 
         function init() {
             petalos = document.getElementsByClassName("petalo");
@@ -79,6 +80,7 @@
         function animar(event) {
             var id_petalo = event.target.id;
             var petalo = document.getElementById(id_petalo);
+            var hoja = document.getElementById("hoja");
 
             // Cambiar el color aleatoriamente
             petalo.style.backgroundColor = colorAleatorio();
@@ -90,6 +92,7 @@
             // Después de la transición, oculta el pétalo
             petalo.addEventListener("transitionend", function () {
                 petalo.style.display = "none";
+                hoja.classList.add("animated-leaf");
                 var texto_mensaje = document.getElementById("mensajeFinal");
                 var postit = document.getElementById("postit");
                 petalosTotal -=1;
