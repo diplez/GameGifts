@@ -1,41 +1,146 @@
 <!DOCTYPE html>
-<head>  
-  
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no;user-scalable=0;"/> 
-  <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
-  <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <style>
-  div>* {
-    width: 50px;
-    height:50px;
-    background-color:transparent;
-    position:fixed;    
-    font-size: 3rem;
-    cursor: hand;    
-  }
+<html lang="en">
 
-  div.animatedDivs{
-    cursor: hand;
-  }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script>
+        window.onload = init;
+        var petalos;
+        var boton_jugar;
+        var valores;
+        let petalosTotal = 6;
 
-  body{
-    background: papayawhip;
-  }
-  </style>
+        function init() {
+            petalos = document.getElementsByClassName("petalo");
+            asignarEvento();
+            boton_jugar = document.getElementById("botonJugar");
+            boton_jugar.addEventListener("click", abrirJuego);
+        }
+        function asignarValores() {
+            var numero_aleatorio = Math.round(Math.random() * 10);
+            var moneda = numero_aleatorio > 5;
+            valores = [];
+            for (var i = 0; i < petalos.length; i++) {
+                valores[i] = moneda;
+                moneda = !moneda;
+            }
+        }
+        function abrirJuego() {
+            var ventana_actual = document.getElementById("intro");
+            var ventana_juego = document.getElementById("juego");
+            ventana_actual.className = "hidden";
+            ventana_juego.className = "animated fadeIn";
+            asignarValores();
+        }
+        function asignarEvento() {
+            for (var i = 0; i < petalos.length; i++) {
+                petalos[i].addEventListener("click", animar);
+            }
+        }
+        function colorAleatorio() {
+            var r = Math.round(Math.random() * 255);
+            var g = Math.round(Math.random() * 255);
+            var b = Math.round(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
+
+        function validarJugada(petalo) {
+            var indice = parseInt(petalo.substr(1));
+            var str;
+
+            if (valores[indice - 1]) {
+                str = "Me quiere";
+            }
+            else {
+                str = "No me quiere";
+            }
+            //alert(mensaje);
+            texto_mensaje.innerHTML = str;
+            mensaje.className = "mostrar animated fadeIn";
+            setTimeout(() => {
+                mensaje.className = "hidden";
+            }, 1000);
+        }
+        /*window.onload = init;
+        var petalos;
+        var contador;
+        
+        function init(){
+            var boton = document.getElementById("boton");
+            boton.addEventListener("click",animar);
+            contador = 0;
+            petalos =         document.getElementsByClassName("petalo");
+        }**/
+
+        function animar(event) {
+            var id_petalo = event.target.id;
+            var petalo = document.getElementById(id_petalo);
+
+            // Cambiar el color aleatoriamente
+            petalo.style.backgroundColor = colorAleatorio();
+
+            // Aplicar una transición de opacidad
+            petalo.style.transition = "opacity 1s"; // Ajusta la duración de la transición según tus preferencias
+            petalo.style.opacity = "0"; // Cambia la opacidad a 0 para que desaparezca suavemente
+
+            // Después de la transición, oculta el pétalo
+            petalo.addEventListener("transitionend", function () {
+                petalo.style.display = "none";
+                var texto_mensaje = document.getElementById("mensajeFinal");
+                var postit = document.getElementById("postit");
+                petalosTotal -=1;
+                if(petalosTotal==0){
+                    texto_mensaje.innerHTML = 'FELICIDADES';
+                    postit.className = ' position-fixed z-1';
+                }                
+            });
+        }
+
+    </script>
+    <title>Flor Amarilla</title>
 </head>
+
 <body>
-  <section class="text-center p-2 bg-primary text-white">
-    <h1>
-      Amor &hearts; Juguemos un juego 
-    </h1>
-  </section>  
-  <p class="fs-6">
-    Uno de estos corazones contiene un regalo para ti, 
-    atinale al adecuado o sino tendras que esperar 24 horas para volver
-    a intentar piensa bien antes de presionar sobre el corazon.
-  </p>
-  <div class="animatedDivs"></div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="./Games.js"></script>
+    <!-- Código de Natalia Ortega -->    
+    <div id="intro" class="hidden">
+        <h1>Mi primer juego</h1>
+        <p>Programación del juego para interactuar con una flor virtual y "jugar a me quiere, no me quiere"</p>
+        <input type="button" value="Jugar" id="botonJugar" />
+    </div>
+    <div id="juego">
+        <div id="postit" class="hidden">
+            <h2 id="mensajeFinal" class="pe-3">Mensaje</h2>
+            <p>En este mes de septiembre, cuando el otoño comienza a asomarse, quiero recordarte que en medio de los cambios y la transición de estaciones, eres como una hermosa flor amarilla que brilla con su propia luz.🌼✨
+        </div>
+        <div id="figura">
+            <div id="flor">
+                <div id="p1" class="petalo animated fadeIn"></div>
+                <div id="p2" class="petalo animated fadeIn"></div>
+                <div id="p3" class="petalo animated fadeIn"></div>
+                <div id="p4" class="petalo animated fadeIn"></div>
+                <div id="p5" class="petalo animated fadeIn"></div>
+                <div id="p6" class="petalo animated fadeIn"></div>
+                <div id="centro" class="animated pulse infinite"></div>
+            </div>
+            <div id="cesped">
+                <div class="manga"></div>
+                <div class="manga"></div>
+                <div class="manga"></div>
+                <div class="manga"></div>
+                <div class="manga"></div>
+                <div class="manga"></div>
+                <div class="manga"></div>
+                <div class="fondo_manga"></div>
+            </div>
+            <div id="tallo"></div>
+            <div id="hoja"></div>
+        </div>
+    </div>
 </body>
+
+
+</html>
