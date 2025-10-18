@@ -13,7 +13,7 @@ $(document).ready(function () {
           $.get( "https://62fe4c23a85c52ee483484f9.mockapi.io/love/gift/"+id, function(gifts) {
             alert('Te has ganado '+ gifts.name);
           })
-
+          let 
           response = addHours(24);
           var data = { 
             "createdAt": addHours(24), 
